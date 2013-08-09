@@ -19,7 +19,7 @@ public class MapShower {
         mapViewer.repaint();
         DefaultMapController mapController = new DefaultMapController(mapViewer);
         mapController.setMovementMouseButton(MouseEvent.BUTTON1);
-        mapViewer.addMapMarker(new MapMarkerDot(52, 5.5));
+        mapViewer.setDisplayPositionByLatLon();
         return  mapViewer;
     }
 }

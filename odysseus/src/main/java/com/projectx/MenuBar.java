@@ -12,11 +12,17 @@ public class MenuBar extends JMenuBar {
     JMenu file=new JMenu("File");
     JMenu help=new JMenu("Help");
     JMenuItem exit=new JMenuItem("Exit");
+    JMenuItem helpData =new JMenuItem("Help Files");
+    JMenuItem privacySetting=new JMenuItem("Privacy Statement");
 
     public MenuBar(){
         AddTabItems(file,exit);
+        AddTabItems(help, helpData);
+        AddTabItems(help,privacySetting);
         AddMenuItems();
         ExitListener();
+        HelpDataLauncher();
+        PrivacySettingLauncher();
     }
 
     public void AddMenuItems(){
@@ -34,6 +40,22 @@ public class MenuBar extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ExitApplication();
+            }
+        });
+    }
+    public void HelpDataLauncher(){
+        helpData.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HelpDataGui showHelp=new HelpDataGui();
+            }
+        });
+    }
+    public void PrivacySettingLauncher(){
+        privacySetting.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PrivacySettingGui showPrivacy=new PrivacySettingGui();
             }
         });
     }

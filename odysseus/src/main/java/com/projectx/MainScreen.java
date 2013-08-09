@@ -17,7 +17,7 @@ public class MainScreen extends JFrame {
 
     public MainScreen(){
         super("Odysseus");
-        setSize(800,800);
+        setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         MenuBar bar=new MenuBar();
