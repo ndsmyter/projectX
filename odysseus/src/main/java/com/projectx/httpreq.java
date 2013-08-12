@@ -1,7 +1,12 @@
 package com.projectx;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import sun.net.www.protocol.http.HttpURLConnection;
 
+
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -16,6 +21,11 @@ import java.net.URL;
 public class httpreq {
     String url = null;
     private final String USER_AGENT = "Mozilla/5.0";
+    private String lat = null;
+    private String lon = null;
+    private String street = null;
+    private String number = null;
+    private String city = null;
 
     public httpreq(String url) {
         this.url = url;
@@ -43,8 +53,60 @@ public class httpreq {
 
         //print result
         System.out.println(response.toString());
+        if (response.toString().equals("[]")){
+            JOptionPane.showMessageDialog(null,"Adres niet gevonden!");
+        }
+        else {
 
 
+        JsonFactory factory =  new JsonFactory();
+        JsonParser jp = factory.createParser(response.toString());
+
+        jp.nextToken(); // will return JsonToken.START_OBJECT (verify?)
+        while (jp.nextToken() != JsonToken.END_OBJECT) {
+            String fieldname = jp.getCurrentName();
+            jp.nextToken(); // move to value, or START_OBJECT/START_ARRAY
+
+                 if ("lat".equals(fieldname)) {
+                      this.lat = jp.getText();
+
+                 } else if ("lon".equals(fieldname)){
+                        this.lon = jp.getText();
+                 } else if ("house_number".equals(fieldname)){
+                     this.number = jp.getText();
+                 } else if ("road".equals(fieldname)) {
+                     this.street = jp.getText();
+                 } else if ("city".equals(fieldname)){
+                     this.city = jp.getText();
+                 }
+
+
+
+            }
+         jp.close(); // ensure resources get cleaned up timely and properly
+        }
+
+
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public String getCity() {
+        return city;
     }
 
 

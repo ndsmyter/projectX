@@ -1,12 +1,10 @@
 package com.projectx;
 
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 
 /**
  * @author steve
@@ -29,6 +27,7 @@ public class MainScreen extends JFrame {
         add(jp,BorderLayout.NORTH);
         jp.setEnabled(true);
 
+        final MapShower mapViewer=new MapShower();
 
         jp.setBorder(BorderFactory.createTitledBorder("Coordinates"));
 
@@ -74,12 +73,16 @@ public class MainScreen extends JFrame {
         goAdr.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                httpreq httpRequest = new httpreq("http://nominatim.openstreetmap.org/search?q=" + numberTxt.getText() + "+" + streetTxt.getText() +",+" + cityTxt.getText() + "&format=json");
+                httpreq httpRequest = new httpreq("http://nominatim.openstreetmap.org/search?q=" + numberTxt.getText().replaceAll("\\s","+") + "+" + streetTxt.getText().replaceAll("\\s","+") +",+" + cityTxt.getText().replaceAll("\\s","+") + "&format=json");
                 try {
                     httpRequest.sendGet();
+                    mapViewer.setPosition(httpRequest.getLat(),httpRequest.getLon());
+                    latTxt.setText(httpRequest.getLat());
+                    lonTxt.setText(httpRequest.getLon());
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
+
             }
         });
 
@@ -92,13 +95,22 @@ public class MainScreen extends JFrame {
         add(jp2);
         jp2.setEnabled(true);
 
-        final MapShower mapViewer=new MapShower();
+
         jp2.add(mapViewer.Viewer());
 
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mapViewer.setPosition(latTxt.getText(),lonTxt.getText());
+                httpreq httpRequest = new httpreq("http://nominatim.openstreetmap.org/reverse?format=json&lat=" + latTxt.getText().toString() + "&lon=" + lonTxt.getText().toString() + "&zoom=18&addressdetails=1");
+                try {
+                    httpRequest.sendGet();
+                    mapViewer.setPosition(httpRequest.getLat(),httpRequest.getLon());
+                    numberTxt.setText(httpRequest.getNumber());
+                    streetTxt.setText(httpRequest.getStreet());
+                    cityTxt.setText(httpRequest.getCity());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
 
             }
         });

@@ -23,13 +23,18 @@ public class MapShower {
         mapViewer.repaint();
         DefaultMapController mapController = new DefaultMapController(mapViewer);
         mapController.setMovementMouseButton(MouseEvent.BUTTON1);
-
-
         return  mapViewer;
     }
 
     public void setPosition(String lat, String lon){
-        mapViewer.setDisplayPositionByLatLon(Double.parseDouble(lat),Double.parseDouble(lon),JMapViewer.MAX_ZOOM-4);
+        System.out.println("lat: " + lat + "lon: " + lon);
+
+            if (lat != null && lon != null) {
+                if(!lat.isEmpty() && !lon.isEmpty())
+                {
+                mapViewer.setDisplayPositionByLatLon(Double.parseDouble(lat),Double.parseDouble(lon),JMapViewer.MAX_ZOOM-4);
+                }
+            }
     }
 
     public void addMarker(String lat, String lon){
