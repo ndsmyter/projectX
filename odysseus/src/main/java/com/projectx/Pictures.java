@@ -23,4 +23,5 @@ public class Pictures {
 
     private String fileName;
     private String filePath;
+    int test;
 }
