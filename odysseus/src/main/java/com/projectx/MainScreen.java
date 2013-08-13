@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
  */
 public class MainScreen extends JFrame {
     private static final long  serialVersionUID=1L;
+    public static JLabel statusbar;
 
     public MainScreen(){
         super("Odysseus");
@@ -121,8 +122,8 @@ public class MainScreen extends JFrame {
                 mapViewer.addMarker(latTxt.getText(),lonTxt.getText());
             }
         });
-
-
+        statusbar = new JLabel("default");
+        add(statusbar, BorderLayout.SOUTH);
 
     }
 }

@@ -14,6 +14,5 @@ public class App extends JFrame
         System.setProperty("http.proxyPort", "8080");
         MainScreen start= new MainScreen();
         start.setVisible(true);
-
     }
 }
