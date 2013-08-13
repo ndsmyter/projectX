@@ -14,8 +14,10 @@ public class MenuBar extends JMenuBar {
     JMenuItem exit=new JMenuItem("Exit");
     JMenuItem helpData =new JMenuItem("Help Files");
     JMenuItem privacySetting=new JMenuItem("Privacy Statement");
+    JMenuItem loadPicture=new JMenuItem("Load Picture");
 
     public MenuBar(){
+        AddTabItems(file,loadPicture);
         AddTabItems(file,exit);
         AddTabItems(help, helpData);
         AddTabItems(help,privacySetting);
@@ -23,6 +25,7 @@ public class MenuBar extends JMenuBar {
         ExitListener();
         HelpDataLauncher();
         PrivacySettingLauncher();
+        LoadPictureLauncher();
     }
 
     public void AddMenuItems(){
@@ -59,4 +62,14 @@ public class MenuBar extends JMenuBar {
             }
         });
     }
+    public void LoadPictureLauncher(){
+        loadPicture.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FileChooser chooser=new FileChooser();
+                Pictures picture=chooser.FileGetter();
+            }
+        });
+    }
+
 }
