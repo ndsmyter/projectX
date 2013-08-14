@@ -3,6 +3,7 @@ package com.projectx;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 /**
  * @author steve
@@ -68,6 +69,14 @@ public class MenuBar extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 FileChooser chooser=new FileChooser();
                 Pictures picture=chooser.FileGetter();
+                System.out.println(picture.getFileName());
+                if(picture.getFileName()!=null){
+                    try {
+                        PhotoLocationAdder addLocation=new PhotoLocationAdder(picture);
+                    } catch (FileNotFoundException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                }
             }
         });
     }
