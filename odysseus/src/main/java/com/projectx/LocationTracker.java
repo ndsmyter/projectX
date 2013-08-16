@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 /**
  * @author steve
@@ -12,8 +13,9 @@ import java.awt.event.ActionListener;
 public class LocationTracker extends JFrame{
     private JLabel lat,or,lon,street,number,city;
     public JTextField latTxt,lonTxt,streetTxt,numberTxt,cityTxt;
-    private JButton submit,goAdr,addMarker;
+    public JButton submit,goAdr,addMarker;
     private JLabel statusbar;
+    public JPanel jp=new JPanel();
 
     /**
      * constructor for gui tracker
@@ -66,11 +68,13 @@ public class LocationTracker extends JFrame{
         statusbar = new JLabel("Odyssus Application");
 
 
-        MainPageGoAddressListener(mapview);
+        //MainPageGoAddressListener(mapview);
         MainPageSubmitListener(mapview);
         //MarkerListener(mapview);
     }
-    public LocationTracker(JPanel jp,Pictures picture){
+    public LocationTracker(File file, Pictures picture,JFrame frame){
+        jp.setSize(1000,100);
+        jp.setVisible(true);
         JPanel coordinaten=new JPanel();
         coordinaten.setEnabled(true);
         coordinaten.setBorder(BorderFactory.createTitledBorder("Give coordinates to the picture"));
@@ -86,9 +90,10 @@ public class LocationTracker extends JFrame{
         lonTxt = new JTextField(10);
         coordinaten.add(lonTxt,BorderLayout.NORTH);
 
-        submit =  new JButton("Set Coordinates");
-        coordinaten.add(submit,BorderLayout.SOUTH);
+//        submit =  new JButton("Set Coordinates");
+//        coordinaten.add(submit,BorderLayout.SOUTH);
         jp.add(coordinaten,BorderLayout.NORTH);
+        coordinaten.setVisible(false);
 
         JPanel coordinaten1=new JPanel();
         coordinaten1.setEnabled(true);
@@ -122,36 +127,56 @@ public class LocationTracker extends JFrame{
         coordinaten3.add(goAdr, BorderLayout.SOUTH);
         coordinaten1.add(coordinaten2,BorderLayout.NORTH);
         coordinaten1.add(coordinaten3,BorderLayout.SOUTH);
-        jp.add(coordinaten1,BorderLayout.CENTER);
-        AddPageGoAddressListener();
-        AddPageSubmitListener();
-
+        jp.add(coordinaten1);
+        //AddPageCoordinatesListener(file,picture,frame);
+        AddPageGoAddressListener(file, picture,frame);
     }
-    public void AddPageGoAddressListener(){
+    public void AddPageCoordinatesListener(final File file,final Pictures picture,final JFrame frame){
         goAdr.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 httpreq httpRequest = new httpreq("http://nominatim.openstreetmap.org/search?q=" + numberTxt.getText().replaceAll("\\s","+") + "+" + streetTxt.getText().replaceAll("\\s","+") +",+" + cityTxt.getText().replaceAll("\\s","+") + "&format=json");
                 try {
+                    System.out.println("Button met coordinaten");
                     httpRequest.sendGet();
                     latTxt.setText(httpRequest.getLat());
                     lonTxt.setText(httpRequest.getLon());
+                    Pictures afbeel=new Pictures();
+                    afbeel=picture;
+                    afbeel.setFileLatitude(latTxt.getText());
+                    afbeel.setFileLongitude(latTxt.getText());
+                    afbeel.setFileCity(cityTxt.getText());
+                    afbeel.setFileStreet(streetTxt.getText());
+                    afbeel.setFileNumberStreet(numberTxt.getText());
+                    afbeel.setFile(file);
+                    PhotoLocationAdder adder=new PhotoLocationAdder(afbeel);
+                    frame.getDefaultCloseOperation();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         });
     }
-    public void AddPageSubmitListener(){
-        submit.addActionListener(new ActionListener() {
+    public void AddPageGoAddressListener(final File file,final Pictures picture,final JFrame frame){
+
+        goAdr.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                httpreq httpRequest = new httpreq("http://nominatim.openstreetmap.org/reverse?format=json&lat=" + latTxt.getText().toString() + "&lon=" + lonTxt.getText().toString() + "&zoom=18&addressdetails=1");
+                httpreq httpRequest = new httpreq("http://nominatim.openstreetmap.org/search?q=" + numberTxt.getText().replaceAll("\\s","+") + "+" + streetTxt.getText().replaceAll("\\s","+") +",+" + cityTxt.getText().replaceAll("\\s","+") + "&format=json");
                 try {
+                    System.out.println("Button met adres");
                     httpRequest.sendGet();
-                    numberTxt.setText(httpRequest.getNumber());
-                    streetTxt.setText(httpRequest.getStreet());
-                    cityTxt.setText(httpRequest.getCity());
+                    latTxt.setText(httpRequest.getLat());
+                    lonTxt.setText(httpRequest.getLon());
+                    Pictures afbeel=new Pictures();
+                    afbeel=picture;
+                    afbeel.setFileLatitude(latTxt.getText());
+                    afbeel.setFileLongitude(latTxt.getText());
+                    afbeel.setFileCity(cityTxt.getText());
+                    afbeel.setFile(file);
+                    PhotoLocationAdder adder=new PhotoLocationAdder(afbeel);
+                    frame.setVisible(false);
+                    frame.dispose();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -161,14 +186,14 @@ public class LocationTracker extends JFrame{
     public JLabel getStatusbar(){
         return statusbar;
     }
-    public void MainPageGoAddressListener(final MapShower mapViewer){
+    public void MainPageGoAddressListener(){
         goAdr.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 httpreq httpRequest = new httpreq("http://nominatim.openstreetmap.org/search?q=" + numberTxt.getText().replaceAll("\\s","+") + "+" + streetTxt.getText().replaceAll("\\s","+") +",+" + cityTxt.getText().replaceAll("\\s","+") + "&format=json");
                 try {
                     httpRequest.sendGet();
-                    mapViewer.setPosition(httpRequest.getLat(),httpRequest.getLon());
+                    //mapViewer.setPosition(httpRequest.getLat(),httpRequest.getLon());
                     latTxt.setText(httpRequest.getLat());
                     lonTxt.setText(httpRequest.getLon());
                 } catch (Exception ex) {
@@ -184,7 +209,7 @@ public class LocationTracker extends JFrame{
                 httpreq httpRequest = new httpreq("http://nominatim.openstreetmap.org/reverse?format=json&lat=" + latTxt.getText().toString() + "&lon=" + lonTxt.getText().toString() + "&zoom=18&addressdetails=1");
                 try {
                     httpRequest.sendGet();
-                    mapViewer.setPosition(httpRequest.getLat(),httpRequest.getLon());
+                    //mapViewer.setPosition(httpRequest.getLat(),httpRequest.getLon());
                     numberTxt.setText(httpRequest.getNumber());
                     streetTxt.setText(httpRequest.getStreet());
                     cityTxt.setText(httpRequest.getCity());

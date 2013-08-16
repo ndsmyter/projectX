@@ -12,7 +12,6 @@ import java.awt.event.MouseEvent;
  * @since 8/9/13
  */
 public class MapShower {
-
     private JMapViewer mapViewer;
 
     public MapShower(){

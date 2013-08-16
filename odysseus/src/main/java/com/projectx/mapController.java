@@ -24,7 +24,7 @@ public class mapController extends DefaultMapController {
     @Override
     public void mouseMoved(MouseEvent e) {
         super.mouseMoved(e);
-        MainScreen.statusbar.setText(map.getPosition(e.getPoint()).toString());
+        //MainScreen.statusbar.setText(map.getPosition(e.getPoint()).toString());
     }
 
     @Override

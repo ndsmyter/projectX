@@ -19,19 +19,13 @@ public class MenuBar extends JMenuBar {
 
     public MenuBar(){
         AddTabItems(file,loadPicture);
-        AddTabItems(file,exit);
         AddTabItems(help, helpData);
         AddTabItems(help,privacySetting);
-        AddMenuItems();
+        add(file);
+        add(help);
         ExitListener();
         HelpDataLauncher();
         PrivacySettingLauncher();
-        LoadPictureLauncher();
-    }
-
-    public void AddMenuItems(){
-        add(file);
-        add(help);
     }
     public void AddTabItems(JMenu item,JMenuItem tabitem){
         item.add(tabitem);
@@ -63,20 +57,12 @@ public class MenuBar extends JMenuBar {
             }
         });
     }
-    public void LoadPictureLauncher(){
+    public void LoadPictureLauncher(MapShower mapViewer,final StatusBar statusBar){
         loadPicture.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 FileChooser chooser=new FileChooser();
-                Pictures picture=chooser.FileGetter();
-                System.out.println(picture.getFileName());
-                if(picture.getFileName()!=null){
-                    try {
-                        PhotoLocationAdder addLocation=new PhotoLocationAdder(picture);
-                    } catch (FileNotFoundException e1) {
-                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }
-                }
+                chooser.LocationGetter();
             }
         });
     }

@@ -2,36 +2,64 @@ package com.projectx;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
 
 /**
  * @author steve
  * @since 8/13/13
  */
-public class PhotoLocationAdder extends JPanel {
-    public PhotoLocationAdder(Pictures picture) throws FileNotFoundException {
-        JFrame frame=new JFrame();
-        JPanel jp=new JPanel();
-        jp.setEnabled(true);
-        jp.setBorder(BorderFactory.createTitledBorder("Give the location where the picture has been taken"));
-        jp.setLayout(new BorderLayout());
-        LocationTracker locationform=new LocationTracker(jp,picture);
-
-        jp.setSize(600,200);
-        jp.setVisible(true);
-
-        frame.add(jp);
-        frame.setResizable(false);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(dim.width / 2 - 300, dim.height / 2 - 100);
-        frame.setSize(600, 200);
-        frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
-        PrintWriter writer = new PrintWriter("data.txt");
-        System.out.println("hello");
-
-        writer.close();
-
+public class PhotoLocationAdder{
+    private boolean error=false;
+    String empty="niks";
+    public PhotoLocationAdder(Pictures picture) throws FileNotFoundException, UnsupportedEncodingException {
+        System.out.println(picture.getFile().getName());
+        System.out.println(picture.getFileCity());
+        error=new File("data.txt").exists();
+        System.out.println(error);
+        if(error==true){
+            try {
+                System.out.println("Iets toevoegen aan het einde");
+                FileWriter fstream=new FileWriter("data.txt",true);
+                BufferedWriter out =new BufferedWriter(fstream);
+                out.write("\n"+picture.getFile().getName());
+                out.write("\n"+picture.getFile().getPath());
+                out.write("\n"+picture.getFileCity());
+                out.write("\n"+picture.getFileLatitude());
+                out.write("\n"+picture.getFileLongitude());
+                if (picture.getFileStreet()!=null){
+                    out.write("\n"+picture.getFileStreet());
+                }else{
+                    out.write("\n"+empty);
+                }
+                if (picture.getFileNumberStreet()!=null){
+                    out.write("\n"+picture.getFileNumberStreet());
+                }else{
+                    out.write("\n"+empty);
+                }
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+        if(error==false){
+            System.out.println("iets toevoegen aan het begin");
+            PrintWriter writer =new PrintWriter("data.txt","UTF-8");
+            writer.println(picture.getFile().getName());
+            writer.println(picture.getFile().getPath());
+            writer.println(picture.getFileCity());
+            writer.println(picture.getFileLatitude());
+            writer.println(picture.getFileLongitude());
+            if (picture.getFileStreet()!=null){
+                writer.println(picture.getFileStreet());
+            }else{
+                writer.println(empty);
+            }
+            if (picture.getFileNumberStreet()!=null){
+                writer.println(picture.getFileNumberStreet());
+            }else{
+                writer.println(empty);
+            }
+            writer.close();
+        }
     }
 }

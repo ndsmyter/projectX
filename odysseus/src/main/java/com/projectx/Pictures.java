@@ -1,5 +1,7 @@
 package com.projectx;
 
+import java.io.File;
+
 /**
  * @author steve
  * @since 8/12/13
@@ -26,6 +28,16 @@ public class Pictures {
     private String fileLatitude;
     private String fileLongitude;
     private String fileNumberStreet;
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    private File file;
 
     public String getFileStreet() {
         return fileStreet;
