@@ -10,9 +10,9 @@ import java.awt.*;
  */
 public class MainScreen extends JFrame {
     private static final long  serialVersionUID=1L;
-    private MapShower mapViewer=new MapShower();
+    public MapShower mapViewer=new MapShower();
     private MenuBar menu =new MenuBar();
-    private StatusBar statusBar=new StatusBar();
+    public StatusBar statusBar=new StatusBar();
 
     public MainScreen(){
         /**
@@ -50,5 +50,6 @@ public class MainScreen extends JFrame {
         menu.AddTabItems(menu.file,menu.exit);
         menu.LoadPictureLauncher(mapViewer,statusBar);
         setJMenuBar(menu);
+       // mapController control=new mapController(mapViewer.Viewer());
     }
 }

@@ -171,12 +171,16 @@ public class LocationTracker extends JFrame{
                     Pictures afbeel=new Pictures();
                     afbeel=picture;
                     afbeel.setFileLatitude(latTxt.getText());
-                    afbeel.setFileLongitude(latTxt.getText());
+                    afbeel.setFileLongitude(lonTxt.getText());
                     afbeel.setFileCity(cityTxt.getText());
+                    afbeel.setFileNumberStreet(numberTxt.getText());
+                    afbeel.setFileStreet(streetTxt.getText());
                     afbeel.setFile(file);
                     PhotoLocationAdder adder=new PhotoLocationAdder(afbeel);
-                    frame.setVisible(false);
-                    frame.dispose();
+                    if(!afbeel.getFileLatitude().isEmpty()&&!afbeel.getFileLongitude().isEmpty()){
+                        frame.setVisible(false);
+                        frame.dispose();
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

@@ -16,50 +16,32 @@ public class PhotoLocationAdder{
         System.out.println(picture.getFileCity());
         error=new File("data.txt").exists();
         System.out.println(error);
-        if(error==true){
+//        if(error==true){
+        if(!picture.getFileLatitude().isEmpty()&&!picture.getFileLongitude().isEmpty()){
             try {
                 System.out.println("Iets toevoegen aan het einde");
                 FileWriter fstream=new FileWriter("data.txt",true);
                 BufferedWriter out =new BufferedWriter(fstream);
-                out.write("\n"+picture.getFile().getName());
-                out.write("\n"+picture.getFile().getPath());
-                out.write("\n"+picture.getFileCity());
-                out.write("\n"+picture.getFileLatitude());
-                out.write("\n"+picture.getFileLongitude());
+                out.write(picture.getFile().getName()+"\n");
+                out.write(picture.getFile().getPath()+"\n");
+                out.write(picture.getFileCity()+"\n");
+                out.write(picture.getFileLatitude()+"\n");
+                out.write(picture.getFileLongitude()+"\n");
                 if (picture.getFileStreet()!=null){
-                    out.write("\n"+picture.getFileStreet());
+                    out.write(picture.getFileStreet()+"\n");
                 }else{
-                    out.write("\n"+empty);
+                    out.write(empty+"\n");
                 }
                 if (picture.getFileNumberStreet()!=null){
-                    out.write("\n"+picture.getFileNumberStreet());
+                    out.write(picture.getFileNumberStreet()+"\n");
                 }else{
-                    out.write("\n"+empty);
+                    out.write(empty+"\n");
                 }
                 out.close();
+                JOptionPane.showMessageDialog(null,"A Picture has been added to your album");
             } catch (IOException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-        }
-        if(error==false){
-            System.out.println("iets toevoegen aan het begin");
-            PrintWriter writer =new PrintWriter("data.txt","UTF-8");
-            writer.println(picture.getFile().getName());
-            writer.println(picture.getFile().getPath());
-            writer.println(picture.getFileCity());
-            writer.println(picture.getFileLatitude());
-            writer.println(picture.getFileLongitude());
-            if (picture.getFileStreet()!=null){
-                writer.println(picture.getFileStreet());
-            }else{
-                writer.println(empty);
-            }
-            if (picture.getFileNumberStreet()!=null){
-                writer.println(picture.getFileNumberStreet());
-            }else{
-                writer.println(empty);
-            }
-            writer.close();
         }
     }
 }
