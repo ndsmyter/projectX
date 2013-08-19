@@ -1,37 +1,48 @@
 package com.projectx;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 /**
  * @author steve
  * @since 8/12/13
  */
-public class FileChooser extends JPanel{
-    public FileChooser(){
+public class FileChooser extends JFrame {
+    Pictures picture=new Pictures();
+    public File file;
+    private String filetype;
 
-    }
-    public Pictures FileGetter() {
+    public FileChooser() {
         JFileChooser fileopen = new JFileChooser();
         fileopen.setDialogTitle("Select your image");
         fileopen.setMultiSelectionEnabled(false);
-        int userSelection = fileopen.showDialog(null, "Open file");
-        FileFilter filter = new FileNameExtensionFilter("jpg files", "jpg", "png", "gif", "jpeg");
-        fileopen.addChoosableFileFilter(filter);
-        int ret = fileopen.showDialog(null, "Open file");
-        Pictures picture=new Pictures();
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File file=fileopen.getSelectedFile();
-            String data=file.getName();
-            System.out.println(data);
-            picture.setFileName(data);
-
-            data=file.getPath();
-            System.out.println(data);
-            picture.setFilePath(data);
+        fileopen.showDialog(null, "Open file");
+        file=fileopen.getSelectedFile();
+        filetype =file.getName();
+        filetype=filetype.substring(filetype.lastIndexOf('.') + 1);
+        while ((!filetype.equals("jpg")) && (!filetype.equals("png")) && (!filetype.equals("jpeg"))) {
+            JOptionPane.showMessageDialog(null, "Only Images of the type:jpg,jpeg,png are allowed", "Wrong Filetype", JOptionPane.ERROR_MESSAGE);
+            fileopen = new JFileChooser();
+            fileopen.setDialogTitle("Select your image");
+            fileopen.setMultiSelectionEnabled(false);
+            fileopen.showDialog(null, "Open file");
+            file = fileopen.getSelectedFile();
+            picture.setFile(file);
+            filetype = file.getName();
+            filetype = filetype.substring(filetype.lastIndexOf('.') + 1);
         }
-        return picture;
+    }
+    public void LocationGetter(){
+        JFrame frame=new JFrame();
+        final LocationTracker locationForm=new LocationTracker(file,picture,frame);
+        frame.add(locationForm.jp);
+        frame.setSize(1000,100);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(dim.width / 2, dim.height / 2 );
+        frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
     }
 }
