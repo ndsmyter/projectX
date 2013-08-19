@@ -14,6 +14,9 @@ public class MainScreen extends JFrame {
     private MenuBar menu =new MenuBar();
     public StatusBar statusBar=new StatusBar();
 
+    /**
+     * will build the mainscreen gui
+     */
     public MainScreen(){
         /**
          * Balk initailiseren, maximizen,exiten als hem geclosed wordt,layout zetten
@@ -22,15 +25,6 @@ public class MainScreen extends JFrame {
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-
-
-        //JPanel jp = new JPanel();
-        //add(jp,BorderLayout.NORTH);
-        //jp.setEnabled(true);
-        //jp.setBorder(BorderFactory.createTitledBorder("Coordinates"));
-        //LocationTracker locationbar=new LocationTracker(jp,mapViewer);
-
-
         /**
          * maptekenen
          */
@@ -50,6 +44,5 @@ public class MainScreen extends JFrame {
         menu.AddTabItems(menu.file,menu.exit);
         menu.LoadPictureLauncher(mapViewer,statusBar);
         setJMenuBar(menu);
-       // mapController control=new mapController(mapViewer.Viewer());
     }
 }

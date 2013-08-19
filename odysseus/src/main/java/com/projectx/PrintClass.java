@@ -85,7 +85,7 @@ public class PrintClass{
                     read=br.readLine();
                     pic.setFileNumberStreet(read);
                     read=br.readLine();
-                    if(lat<(Double.parseDouble(pic.getFileLatitude())+0.3)&&longi<(Double.parseDouble(pic.getFileLongitude())+0.3)&&lat>(Double.parseDouble(pic.getFileLatitude())-0.3)&&longi>(Double.parseDouble(pic.getFileLongitude())-0.3)){
+                    if(lat<(Double.parseDouble(pic.getFileLatitude())+0.1)&&longi<(Double.parseDouble(pic.getFileLongitude())+0.1)&&lat>(Double.parseDouble(pic.getFileLatitude())-0.1)&&longi>(Double.parseDouble(pic.getFileLongitude())-0.1)){
                         pictureArray[dialogcounter]=pic;
                         dialogcounter++;
                     }

@@ -17,10 +17,13 @@ public class MenuBar extends JMenuBar {
     JMenuItem privacySetting=new JMenuItem("Privacy Statement");
     JMenuItem loadPicture=new JMenuItem("Load Picture");
 
+    /**
+     * will build the menu bar
+     */
     public MenuBar(){
         AddTabItems(file,loadPicture);
         AddTabItems(help, helpData);
-        AddTabItems(help,privacySetting);
+        //AddTabItems(help,privacySetting);
         add(file);
         add(help);
         ExitListener();

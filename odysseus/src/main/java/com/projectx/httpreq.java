@@ -31,6 +31,10 @@ public class httpreq {
         this.url = url;
     }
 
+    /**
+     * this funciton will send an httprequest based on the information got from the class
+     * @throws Exception
+     */
     public void sendGet() throws Exception{
         URL link = new URL(url);
         HttpURLConnection con = (HttpURLConnection) link.openConnection();
@@ -50,23 +54,18 @@ public class httpreq {
             response.append(inputLine);
         }
         in.close();
-
         //print result
         System.out.println(response.toString());
         if (response.toString().equals("[]")){
             JOptionPane.showMessageDialog(null,"Adres niet gevonden!");
         }
         else {
-
-
         JsonFactory factory =  new JsonFactory();
         JsonParser jp = factory.createParser(response.toString());
-
         jp.nextToken(); // will return JsonToken.START_OBJECT (verify?)
         while (jp.nextToken() != JsonToken.END_OBJECT) {
             String fieldname = jp.getCurrentName();
             jp.nextToken(); // move to value, or START_OBJECT/START_ARRAY
-
                  if ("lat".equals(fieldname)) {
                       this.lat = jp.getText();
 
@@ -79,14 +78,9 @@ public class httpreq {
                  } else if ("city".equals(fieldname)){
                      this.city = jp.getText();
                  }
-
-
-
             }
          jp.close(); // ensure resources get cleaned up timely and properly
         }
-
-
     }
 
     public String getLat() {

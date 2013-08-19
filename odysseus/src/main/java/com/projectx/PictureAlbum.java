@@ -24,6 +24,12 @@ public class PictureAlbum extends JFrame {
     int i,total;
     JFrame frame = new JFrame("Album of the location");
 
+    /**
+     * Will build A picture album with the first picture
+     * @param albumArray
+     * @param count
+     * @throws IOException
+     */
     public PictureAlbum(Pictures[] albumArray, int count) throws IOException {
         count--;
         total=count;
@@ -46,7 +52,9 @@ public class PictureAlbum extends JFrame {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
+    /**
+     * When pressed on the button previous it will load another image if there is any present
+     */
     public void ShowLastPicture(){
         lastPicture.addActionListener(new ActionListener() {
             @Override
@@ -65,13 +73,14 @@ public class PictureAlbum extends JFrame {
                     image.repaint();
                     nameLabel.setText("<html>Picture name: " + pictureRoller[i].getFileName() + "<br>" + "City Picture was taken: " + pictureRoller[i].getFileCity() + "</html>");
                 } catch (IOException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e1.printStackTrace();
                 }
             }
         });
-
     }
-
+    /**
+     * When pressed on the next button it will load the another image if there is any present
+     */
     public void ShowNextPicture() {
         nextPicture.addActionListener(new ActionListener() {
             @Override

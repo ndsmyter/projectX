@@ -8,10 +8,17 @@ import java.io.*;
  * @author steve
  * @since 8/13/13
  */
-public class PhotoLocationAdder{
+public class PhotoToStorage {
     private boolean error=false;
     String empty="niks";
-    public PhotoLocationAdder(Pictures picture) throws FileNotFoundException, UnsupportedEncodingException {
+
+    /**
+     * Will write the data to a text file for storage
+     * @param picture
+     * @throws FileNotFoundException
+     * @throws UnsupportedEncodingException
+     */
+    public PhotoToStorage(Pictures picture) throws FileNotFoundException, UnsupportedEncodingException {
         System.out.println(picture.getFile().getName());
         System.out.println(picture.getFileCity());
         error=new File("data.txt").exists();

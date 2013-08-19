@@ -8,6 +8,9 @@ import javax.swing.*;
  * Statusbar class
  */
 public class StatusBar extends JLabel {
+    /**
+     * This will build and edit the statusbar
+     */
     private JLabel statusBar=new JLabel("Odysseus Application");
 
     public StatusBar() {

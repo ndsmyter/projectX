@@ -17,6 +17,11 @@ public class MapShower {
     public MapShower(){
 
     }
+
+    /**
+     * Will build the map and return it
+     * @return
+     */
     public JMapViewer Viewer(){
         mapViewer=new JMapViewer();
         mapViewer.repaint();
@@ -24,7 +29,11 @@ public class MapShower {
         mapController.setMovementMouseButton(MouseEvent.BUTTON1);
         return  mapViewer;
     }
-
+    /**
+     * Will set the map to a given location
+     * @param lat
+     * @param lon
+     */
     public void setPosition(String lat, String lon){
         System.out.println("lat: " + lat + "lon: " + lon);
 
@@ -35,7 +44,11 @@ public class MapShower {
                 }
             }
     }
-
+    /**
+     * will add markers to the map
+     * @param lat
+     * @param lon
+     */
     public void addMarker(String lat, String lon){
         MapMarkerDot mp = new MapMarkerDot(Color.BLACK,Double.parseDouble(lat),Double.parseDouble(lon));
         mapViewer.addMapMarker(mp);

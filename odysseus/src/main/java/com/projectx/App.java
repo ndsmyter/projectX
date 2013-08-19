@@ -15,6 +15,10 @@ public class App extends JFrame
         int delay=1000;
         int period=20000;
         Timer timer =new Timer();
+        /**
+         * Timer for updating the map
+         * Will put different message into the statusbar
+         */
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -22,6 +26,9 @@ public class App extends JFrame
                 PrintClass print=new PrintClass(start);
             }
         },delay,period);
+        /**
+         * Timer for all clear and will set statusbar back
+         */
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
