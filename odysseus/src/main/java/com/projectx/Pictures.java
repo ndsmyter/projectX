@@ -7,6 +7,10 @@ import java.io.File;
  * @since 8/12/13
  */
 public class Pictures {
+    /**
+     * the pictures class will store all the data belonging to a picture
+     * @return
+     */
     public String getFileName() {
         return fileName;
     }

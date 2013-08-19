@@ -7,7 +7,9 @@ import javax.swing.*;
  * @since 8/9/13
  */
 public class PrivacySettingGui extends JFrame{
-
+    /**
+     * Not used at the moment
+     */
     public PrivacySettingGui(){
         JFrame frame=new JFrame("Privacy Setting");
         frame.setSize(500,500);

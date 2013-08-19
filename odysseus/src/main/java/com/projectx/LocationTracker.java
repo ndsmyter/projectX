@@ -18,60 +18,11 @@ public class LocationTracker extends JFrame{
     public JPanel jp=new JPanel();
 
     /**
-     * constructor for gui tracker
-     * @param jp
-     * @param mapview
+     * This will give a gui location adding
+     * @param file
+     * @param picture
+     * @param frame
      */
-    public LocationTracker(JPanel jp,MapShower mapview){
-        lat = new JLabel("Latitude: ");
-        jp.add(lat);
-
-        latTxt = new JTextField(10);
-        jp.add(latTxt);
-
-        lon = new JLabel("longitude: ");
-        jp.add(lon);
-
-        lonTxt = new JTextField(10);
-        jp.add(lonTxt);
-
-        submit =  new JButton("Go to coordinates");
-        jp.add(submit);
-
-        or = new JLabel(" OR ");
-        jp.add(or);
-
-        street = new JLabel("Street: ");
-        jp.add(street);
-
-        streetTxt = new JTextField(25);
-        jp.add(streetTxt);
-
-        number = new JLabel("number: ");
-        jp.add(number);
-
-        numberTxt = new JTextField(5);
-        jp.add(numberTxt);
-
-        city = new JLabel("City: ");
-        jp.add(city);
-
-        cityTxt = new JTextField(20);
-        jp.add(cityTxt);
-
-        goAdr =  new JButton("Go to address");
-        jp.add(goAdr);
-
-        //addMarker = new JButton("add Marker");
-        //jp.add(addMarker);
-
-        statusbar = new JLabel("Odyssus Application");
-
-
-        //MainPageGoAddressListener(mapview);
-        MainPageSubmitListener(mapview);
-        //MarkerListener(mapview);
-    }
     public LocationTracker(File file, Pictures picture,JFrame frame){
         jp.setSize(1000,100);
         jp.setVisible(true);
@@ -129,6 +80,13 @@ public class LocationTracker extends JFrame{
         //AddPageCoordinatesListener(file,picture,frame);
         AddPageGoAddressListener(file, picture,frame);
     }
+
+    /**
+     * will add coordinates to a picture object
+     * @param file
+     * @param picture
+     * @param frame
+     */
     public void AddPageCoordinatesListener(final File file,final Pictures picture,final JFrame frame){
         goAdr.addActionListener(new ActionListener() {
             @Override
@@ -147,7 +105,7 @@ public class LocationTracker extends JFrame{
                     afbeel.setFileStreet(streetTxt.getText());
                     afbeel.setFileNumberStreet(numberTxt.getText());
                     afbeel.setFile(file);
-                    PhotoLocationAdder adder=new PhotoLocationAdder(afbeel);
+                    PhotoToStorage adder=new PhotoToStorage(afbeel);
                     frame.getDefaultCloseOperation();
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -155,12 +113,19 @@ public class LocationTracker extends JFrame{
             }
         });
     }
+
+    /**
+     * Will listener to the address button and will add the adress to picture object
+     * @param file
+     * @param picture
+     * @param frame
+     */
     public void AddPageGoAddressListener(final File file,final Pictures picture,final JFrame frame){
 
         goAdr.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                httpreq httpRequest = new httpreq("http://nominatim.openstreetmap.org/search?q=" + numberTxt.getText().replaceAll("\\s","+") + "+" + streetTxt.getText().replaceAll("\\s","+") +",+" + cityTxt.getText().replaceAll("\\s","+") + "&format=json");
+                httpreq httpRequest = new httpreq("http://nominatim.openstreetmap.org/search?q=" + numberTxt.getText().replaceAll("\\s", "+") + "+" + streetTxt.getText().replaceAll("\\s","+") +",+" + cityTxt.getText().replaceAll("\\s", "+") + "&format=json");
                 try {
                     System.out.println("Button met adres");
                     httpRequest.sendGet();
@@ -174,7 +139,7 @@ public class LocationTracker extends JFrame{
                     afbeel.setFileNumberStreet(numberTxt.getText());
                     afbeel.setFileStreet(streetTxt.getText());
                     afbeel.setFile(file);
-                    PhotoLocationAdder adder=new PhotoLocationAdder(afbeel);
+                    PhotoToStorage adder=new PhotoToStorage(afbeel);
                     if(!afbeel.getFileLatitude().isEmpty()&&!afbeel.getFileLongitude().isEmpty()){
                         frame.setVisible(false);
                         frame.dispose();
@@ -187,46 +152,5 @@ public class LocationTracker extends JFrame{
     }
     public JLabel getStatusbar(){
         return statusbar;
-    }
-    public void MainPageGoAddressListener(){
-        goAdr.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                httpreq httpRequest = new httpreq("http://nominatim.openstreetmap.org/search?q=" + numberTxt.getText().replaceAll("\\s","+") + "+" + streetTxt.getText().replaceAll("\\s","+") +",+" + cityTxt.getText().replaceAll("\\s","+") + "&format=json");
-                try {
-                    httpRequest.sendGet();
-                    //mapViewer.setPosition(httpRequest.getLat(),httpRequest.getLon());
-                    latTxt.setText(httpRequest.getLat());
-                    lonTxt.setText(httpRequest.getLon());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-    }
-    public void MainPageSubmitListener(final MapShower mapViewer){
-        submit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                httpreq httpRequest = new httpreq("http://nominatim.openstreetmap.org/reverse?format=json&lat=" + latTxt.getText().toString() + "&lon=" + lonTxt.getText().toString() + "&zoom=18&addressdetails=1");
-                try {
-                    httpRequest.sendGet();
-                    //mapViewer.setPosition(httpRequest.getLat(),httpRequest.getLon());
-                    numberTxt.setText(httpRequest.getNumber());
-                    streetTxt.setText(httpRequest.getStreet());
-                    cityTxt.setText(httpRequest.getCity());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-    }
-    public void MarkerListener(final MapShower mapViewer){
-        addMarker.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mapViewer.addMarker(latTxt.getText(),lonTxt.getText());
-            }
-        });
     }
 }

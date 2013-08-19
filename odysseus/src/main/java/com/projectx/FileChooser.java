@@ -15,6 +15,9 @@ public class FileChooser extends JFrame {
     public File file;
     private String filetype;
 
+    /**
+     * Constructor for the filechooser to get only images
+     */
     public FileChooser() {
         JFileChooser fileopen = new JFileChooser();
         fileopen.setDialogTitle("Select your image");
@@ -35,6 +38,10 @@ public class FileChooser extends JFrame {
             filetype = filetype.substring(filetype.lastIndexOf('.') + 1);
         }
     }
+
+    /**
+     *  Will call the method to get the location of a chosen picture from the filechooser
+     */
     public void LocationGetter(){
         JFrame frame=new JFrame();
         final LocationTracker locationForm=new LocationTracker(file,picture,frame);

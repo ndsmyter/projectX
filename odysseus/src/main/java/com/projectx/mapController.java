@@ -29,6 +29,10 @@ public class mapController extends DefaultMapController {
         //MainScreen.statusbar.setText(map.getPosition(e.getPoint()).toString());
     }
 
+    /**
+     * when clicked on the map it will get the location where pressed
+     * @param e
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
