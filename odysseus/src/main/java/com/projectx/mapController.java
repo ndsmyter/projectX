@@ -32,7 +32,6 @@ public class mapController extends DefaultMapController {
     @Override
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
-        System.out.println("ik kom erin");
         PrintClass print=new PrintClass();
         MapMarker marker=new MapMarkerDot("test",map.getPosition(e.getPoint()));
         double lat= marker.getLat();

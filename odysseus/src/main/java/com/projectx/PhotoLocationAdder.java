@@ -16,10 +16,8 @@ public class PhotoLocationAdder{
         System.out.println(picture.getFileCity());
         error=new File("data.txt").exists();
         System.out.println(error);
-//        if(error==true){
         if(!picture.getFileLatitude().isEmpty()&&!picture.getFileLongitude().isEmpty()){
             try {
-                System.out.println("Iets toevoegen aan het einde");
                 FileWriter fstream=new FileWriter("data.txt",true);
                 BufferedWriter out =new BufferedWriter(fstream);
                 out.write(picture.getFile().getName()+"\n");

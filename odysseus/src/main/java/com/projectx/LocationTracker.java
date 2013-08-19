@@ -90,8 +90,6 @@ public class LocationTracker extends JFrame{
         lonTxt = new JTextField(10);
         coordinaten.add(lonTxt,BorderLayout.NORTH);
 
-//        submit =  new JButton("Set Coordinates");
-//        coordinaten.add(submit,BorderLayout.SOUTH);
         jp.add(coordinaten,BorderLayout.NORTH);
         coordinaten.setVisible(false);
 

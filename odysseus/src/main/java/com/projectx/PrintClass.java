@@ -2,8 +2,10 @@ package com.projectx;
 
 import org.slf4j.Marker;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -12,9 +14,8 @@ import java.util.ArrayList;
  * @since 8/16/13
  */
 public class PrintClass{
-    public Pictures pic=new Pictures();
+    //public Pictures pic=new Pictures();
     private String read;
-    public String[][]pictureArray;
     PrintClass(){}
     PrintClass(MainScreen start){
         boolean error=new File("data.txt").exists();
@@ -27,6 +28,7 @@ public class PrintClass{
                         read=br.readLine();
                         System.out.println("ik ben ies leeg");
                     }
+                    Pictures pic=new Pictures();
                     pic.setFileName(read);
                     read=br.readLine();
                     pic.setFilePath(read);
@@ -55,10 +57,11 @@ public class PrintClass{
         }
     }
     public ArrayList ReturnPictures(double lat,double longi,MouseEvent e){
-        ArrayList<Pictures>picture=new ArrayList<Pictures>();
+        Pictures[] pictureArray=new Pictures[1000];
         boolean error=new File("data.txt").exists();
         if(error==true){
             try {
+                System.out.println("kom in de check lijst");
                 BufferedReader br=new BufferedReader((new FileReader("data.txt")));
                 read=br.readLine();
                 int dialogcounter=0;
@@ -67,6 +70,7 @@ public class PrintClass{
                         read=br.readLine();
                         System.out.println("ik ben ies leeg");
                     }
+                    Pictures pic=new Pictures();
                     pic.setFileName(read);
                     read=br.readLine();
                     pic.setFilePath(read);
@@ -81,27 +85,13 @@ public class PrintClass{
                     read=br.readLine();
                     pic.setFileNumberStreet(read);
                     read=br.readLine();
-                    picture.add(pic);
                     if(lat<(Double.parseDouble(pic.getFileLatitude())+0.3)&&longi<(Double.parseDouble(pic.getFileLongitude())+0.3)&&lat>(Double.parseDouble(pic.getFileLatitude())-0.3)&&longi>(Double.parseDouble(pic.getFileLongitude())-0.3)){
-                        pictureArray = new String[100000][5];
-                        System.out.println(pic.getFileCity());
-                        System.out.println("Er is een match");
-                        pictureArray[dialogcounter][0]=pic.getFilePath();
-                        pictureArray[dialogcounter][1]=pic.getFileName();
-                        pictureArray[dialogcounter][2]=pic.getFileCity();
-                        JDialog dialog=new JDialog();
-                        JLabel label=new JLabel(new ImageIcon(pic.getFilePath()));
-                        dialog.add(label);
-                        dialog.setLocation(e.getPoint());
-                        dialog.pack();
-                        dialog.setVisible(true);
+                        pictureArray[dialogcounter]=pic;
                         dialogcounter++;
-                        //album insteken
                     }
-
                 }
                 if(dialogcounter!=0){
-                    //PictureAlbum album=new PictureAlbum(pictureArray,dialogcounter);
+                    PictureAlbum album=new PictureAlbum(pictureArray,dialogcounter);
                 }
             } catch (FileNotFoundException f) {
                 f.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -112,7 +102,7 @@ public class PrintClass{
                 System.out.println(e);
             }
         }
-        return picture;
+        return null;
     }
     public void PlaceMarker(MainScreen start,Pictures pictures){
         start.mapViewer.addMarker(pictures.getFileLatitude(),pictures.getFileLongitude());
