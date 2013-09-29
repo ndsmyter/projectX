@@ -1,6 +1,6 @@
 projectX
 ========
 
-Project of Steve and Gunther
+Project of Steve, Gunther and Nicolas
 
 Project X
