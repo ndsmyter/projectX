@@ -9,15 +9,15 @@ import java.awt.*;
  * @since 8/9/13
  */
 public class MainScreen extends JFrame {
-    private static final long  serialVersionUID=1L;
-    public MapShower mapViewer=new MapShower();
-    private MenuBar menu =new MenuBar();
-    public StatusBar statusBar=new StatusBar();
+    private static final long serialVersionUID = 1L;
+    private StatusBar statusBar = new StatusBar();
+    private MapShower mapShower = new MapShower();
+    private MenuBar menu = new MenuBar();
 
     /**
      * will build the mainscreen gui
      */
-    public MainScreen(){
+    public MainScreen() {
         /**
          * Balk initailiseren, maximizen,exiten als hem geclosed wordt,layout zetten
          */
@@ -26,23 +26,31 @@ public class MainScreen extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         /**
-         * maptekenen
+         * Draw map
          */
         JPanel jp2 = new JPanel();
         jp2.setLayout(new BorderLayout());
         jp2.setBorder(BorderFactory.createTitledBorder("Map"));
         add(jp2);
         jp2.setEnabled(true);
-        jp2.add(mapViewer.Viewer());
+        jp2.add(mapShower.Viewer());
         /**
-         * statusbar toevoegen
+         * Add status bar
          */
-        add(statusBar.getStatusBar(),BorderLayout.SOUTH);
+        add(statusBar.getStatusBar(), BorderLayout.SOUTH);
         /**
-         * Menubar aansluiten
+         * Attach menubar
          */
-        menu.AddTabItems(menu.file,menu.exit);
-        menu.LoadPictureLauncher(mapViewer,statusBar);
+        menu.AddTabItems(menu.file, menu.exit);
+        menu.LoadPictureLauncher(mapShower, statusBar);
         setJMenuBar(menu);
+    }
+
+    public MapShower getMapShower() {
+        return mapShower;
+    }
+
+    public StatusBar getStatusBar() {
+        return statusBar;
     }
 }

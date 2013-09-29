@@ -6,13 +6,11 @@
       <sourceFolder url="file://$MODULE_DIR$/java" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="library" exported="" name="jackson-core-2.2.0" level="project" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="odysseusMobile" level="project" />
-    <orderEntry type="library" name="src" level="project" />
+    <orderEntry type="library" name="jackson-all-1.9.11" level="project" />
     <orderEntry type="library" name="JMapViewer_29618" level="project" />
-    <orderEntry type="library" name="jackson-core-2.2.0 (2)" level="project" />
-    <orderEntry type="library" name="jackson-core-2.2.0 (2)" level="project" />
+    <orderEntry type="library" name="src" level="project" />
+    <orderEntry type="library" name="odysseusMobile" level="project" />
   </component>
 </module>
 

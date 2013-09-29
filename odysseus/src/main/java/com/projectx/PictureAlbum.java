@@ -8,100 +8,82 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @author Steve De Clercq
  * @since 8/16/13
  */
 public class PictureAlbum extends JFrame {
-    private static final long  serialVersionUID=1L;
-    JButton nextPicture = new JButton("Next");
-    JButton lastPicture = new JButton("Previous");
-    Pictures[]pictureRoller;
-    File photo;
-    BufferedImage bufferPhoto;
-    JLabel image,nameLabel;
-    int i,total;
-    JFrame frame = new JFrame("Album of the location");
+    private final JFrame frame = new JFrame("Album of the location");
+    private JButton nextButton = new JButton("Next");
+    private JButton previousButton = new JButton("Previous");
+    private Picture[] pictureRoller;
+    private File photo;
+    private BufferedImage bufferPhoto;
+    private int i, total;
+    private JLabel nameLabel;
+    private JLabel image;
+    private ArrayList<Picture> pictures;
+    private int counter = 0;
+    private int windowWidth = 300;
+    private int windowHeight = 300;
 
-    /**
-     * Will build A picture album with the first picture
-     * @param albumArray
-     * @param count
-     * @throws IOException
-     */
-    public PictureAlbum(Pictures[] albumArray, int count) throws IOException {
-        count--;
-        total=count;
-        pictureRoller=albumArray;
-        i = 0;
-        photo = new File(albumArray[i].getFilePath());
-        bufferPhoto = ImageIO.read(photo);
-        image = new JLabel(new ImageIcon(ImageIO.read(photo)));
-        nameLabel = new JLabel("<html>Picture name: " + albumArray[i].getFileName() + "<br>" + "City Picture was taken: " + albumArray[i].getFileCity() + "</html>");
-        frame.add(image, BorderLayout.NORTH);
-        frame.add(nameLabel, BorderLayout.CENTER);
-        JPanel buttonFrame=new JPanel();
-        buttonFrame.add(lastPicture);
-        buttonFrame.add(nextPicture);
-        frame.add(buttonFrame,BorderLayout.SOUTH);
-        ShowNextPicture();
-        ShowLastPicture();
-        frame.setSize(300, 300);
+    public PictureAlbum(ArrayList<Picture> pictures) {
+        this.pictures = pictures;
+
+        image = new JLabel();
+        nameLabel = new JLabel();
+
+        frame.add(nameLabel, BorderLayout.NORTH);
+        frame.add(image, BorderLayout.CENTER);
+
+        showPicture(counter);
+
+        JPanel buttonFrame = new JPanel();
+        buttonFrame.add(previousButton);
+        buttonFrame.add(nextButton);
+        frame.add(buttonFrame, BorderLayout.SOUTH);
+
+        addActions();
+
+        frame.setSize(windowWidth, windowHeight);
         frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    /**
-     * When pressed on the button previous it will load another image if there is any present
-     */
-    public void ShowLastPicture(){
-        lastPicture.addActionListener(new ActionListener() {
+
+    public static BufferedImage resizeImage(BufferedImage img, int newW, int newH) {
+        Image normalImage = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+        BufferedImage buffered = new BufferedImage(newW, newH, img.getType());
+        buffered.getGraphics().drawImage(normalImage, 0, 0, null);
+        return buffered;
+    }
+
+    private void showPicture(int i) {
+        Picture current = pictures.get(i);
+        bufferPhoto = null;
+        try {
+            bufferPhoto = resizeImage(ImageIO.read(current.getFile()), windowWidth, windowHeight);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        image.setIcon(new ImageIcon(bufferPhoto));
+        nameLabel.setText("<html>Picture name: " + current.getFileName() + "<br>" + "City Picture was taken: " + current.getCity() + "</html>");
+        counter = i;
+    }
+
+    private void addActions() {
+        nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(pictureRoller[i].getFilePath());
-                i--;
-                if(i<0){
-                    i=total;
-                }
-                System.out.println(i);
-                System.out.println(total);
-                try {
-                    photo=new File(pictureRoller[i].getFilePath());
-                    bufferPhoto = ImageIO.read(photo);
-                    image.setIcon(new ImageIcon(ImageIO.read(photo)));
-                    image.repaint();
-                    nameLabel.setText("<html>Picture name: " + pictureRoller[i].getFileName() + "<br>" + "City Picture was taken: " + pictureRoller[i].getFileCity() + "</html>");
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                showPicture((counter + 1) % pictures.size());
             }
         });
-    }
-    /**
-     * When pressed on the next button it will load the another image if there is any present
-     */
-    public void ShowNextPicture() {
-        nextPicture.addActionListener(new ActionListener() {
+        previousButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(pictureRoller[i].getFilePath());
-                i++;
-                if(i>total){
-                    i=0;
-                }
-                System.out.println(i);
-                System.out.println(total);
-                try {
-                    photo=new File(pictureRoller[i].getFilePath());
-                    bufferPhoto = ImageIO.read(photo);
-                    image.setIcon(new ImageIcon(ImageIO.read(photo)));
-                    image.repaint();
-                    nameLabel.setText("<html>Picture name: " + pictureRoller[i].getFileName() + "<br>" + "City Picture was taken: " + pictureRoller[i].getFileCity() + "</html>");
-                } catch (IOException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-
+                showPicture((counter - 1 + pictures.size()) % pictures.size());
             }
         });
     }

@@ -1,10 +1,9 @@
 package com.projectx;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonToken;
 import sun.net.www.protocol.http.HttpURLConnection;
-
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -18,8 +17,8 @@ import java.net.URL;
  * Time: 12:42
  * To change this template use File | Settings | File Templates.
  */
-public class httpreq {
-    String url = null;
+public class HttpReq {
+    private String url = null;
     private final String USER_AGENT = "Mozilla/5.0";
     private String lat = null;
     private String lon = null;
@@ -27,15 +26,16 @@ public class httpreq {
     private String number = null;
     private String city = null;
 
-    public httpreq(String url) {
+    public HttpReq(String url) {
         this.url = url;
     }
 
     /**
-     * this funciton will send an httprequest based on the information got from the class
+     * this function will send an httprequest based on the information got from the class
+     *
      * @throws Exception
      */
-    public void sendGet() throws Exception{
+    public void sendGet() throws Exception {
         URL link = new URL(url);
         HttpURLConnection con = (HttpURLConnection) link.openConnection();
         con.setRequestMethod("GET");
@@ -56,30 +56,29 @@ public class httpreq {
         in.close();
         //print result
         System.out.println(response.toString());
-        if (response.toString().equals("[]")){
-            JOptionPane.showMessageDialog(null,"Adres niet gevonden!");
-        }
-        else {
-        JsonFactory factory =  new JsonFactory();
-        JsonParser jp = factory.createParser(response.toString());
-        jp.nextToken(); // will return JsonToken.START_OBJECT (verify?)
-        while (jp.nextToken() != JsonToken.END_OBJECT) {
-            String fieldname = jp.getCurrentName();
-            jp.nextToken(); // move to value, or START_OBJECT/START_ARRAY
-                 if ("lat".equals(fieldname)) {
-                      this.lat = jp.getText();
+        if (response.toString().equals("[]")) {
+            JOptionPane.showMessageDialog(null, "Address not found!");
+        } else {
+            JsonFactory factory = new JsonFactory();
+            JsonParser jp = factory.createJsonParser(response.toString());
+            jp.nextToken(); // will return JsonToken.START_OBJECT (verify?)
+            while (jp.nextToken() != JsonToken.END_OBJECT) {
+                String fieldname = jp.getCurrentName();
+                jp.nextToken(); // move to value, or START_OBJECT/START_ARRAY
+                if ("lat".equals(fieldname)) {
+                    this.lat = jp.getText();
 
-                 } else if ("lon".equals(fieldname)){
-                        this.lon = jp.getText();
-                 } else if ("house_number".equals(fieldname)){
-                     this.number = jp.getText();
-                 } else if ("road".equals(fieldname)) {
-                     this.street = jp.getText();
-                 } else if ("city".equals(fieldname)){
-                     this.city = jp.getText();
-                 }
+                } else if ("lon".equals(fieldname)) {
+                    this.lon = jp.getText();
+                } else if ("house_number".equals(fieldname)) {
+                    this.number = jp.getText();
+                } else if ("road".equals(fieldname)) {
+                    this.street = jp.getText();
+                } else if ("city".equals(fieldname)) {
+                    this.city = jp.getText();
+                }
             }
-         jp.close(); // ensure resources get cleaned up timely and properly
+            jp.close(); // ensure resources get cleaned up timely and properly
         }
     }
 
@@ -102,7 +101,6 @@ public class httpreq {
     public String getCity() {
         return city;
     }
-
 
 
 }
